@@ -23,6 +23,8 @@ Cmd.promise({
 
 Cmd.batch([ cmdA, cmdB, cmdC ]);
 
+Cmd.map(otherCmd, prevMessage => nextMessage)
+
 Cmd.fetchJson({
     url: '/end-point',
     success: deserializedJsonResponse => nextMessageA
@@ -77,6 +79,9 @@ const update = function (msg, state) {
     })
 }
 ```
+
+`Cmd.map(cmd, msg -> msg)`: returns a new command/effect that dispatches a transformed message to a different type of message.
+
 `Cmd.promise(options)` dispatches messages that result from a promise being resolved or rejected:
 
 ```js
