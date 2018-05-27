@@ -107,3 +107,29 @@ describe("Cmd.batch", () => {
         Chai.expect(value).to.equal(2);
     })
 });
+
+describe("Cmd.map", () => {
+
+    it("transforms the command by transforming the message", () => {
+        const effect = dispatch => {
+            dispatch('Hello')
+            dispatch('World')
+        }
+          
+        const importantEffect = Cmd.map(effect, message => ({
+          type: 'important',
+          value: message
+        }))
+        
+        const messages = []
+        importantEffect(message => {
+          messages.push(message)
+        }); 
+
+        Chai.expect(messages[0].type).to.equal('important');
+        Chai.expect(messages[0].value).to.equal('Hello');
+
+        Chai.expect(messages[1].type).to.equal('important');
+        Chai.expect(messages[1].value).to.equal('World');
+    })
+})

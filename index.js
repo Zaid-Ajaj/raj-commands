@@ -60,6 +60,20 @@ const batch = function(commands) {
   }
 }
 
+
+// adapted from mapEffect from raj-compose
+// https://github.com/andrejewski/raj-compose#mapeffect
+const map = function(cmd, f) {
+  return function(dispatch) {
+    const outerDispatch = function(msg) {
+      const transformed = f(msg)
+      dispatch(transformed)
+    }
+
+    cmd(outerDispatch)
+  }
+}
+
 module.exports = {
   none,
   ofMsg,
@@ -67,5 +81,6 @@ module.exports = {
   fetchJson,
   postJson,
   timeout,
-  batch
+  batch,
+  map
 }
